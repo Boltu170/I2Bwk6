@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organisations - Week 6 | Introduction to Business</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #D2B48C;
+            color: #000;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .aru-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+        .aru-bird { font-size: 1.2em; font-weight: 900; color: #2C1810; letter-spacing: 1px; }
+        .aru-text { border-left: 3px solid #8B4513; padding-left: 10px; }
+        .aru-text .aru-name { font-size: 1em; font-weight: 900; color: #2C1810; letter-spacing: 1px; }
+        .aru-text .aru-sub { font-size: 0.75em; color: #5C3317; font-style: italic; }
+
+```
+    .slide {
+        background: #E8D7C3;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        flex-grow: 1;
+        display: none;
+    }
+    .slide.active { display: block; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    h1 { font-size: 2.2em; margin-bottom: 20px; color: #2C1810; border-bottom: 4px solid #8B4513; padding-bottom: 10px; }
+    h2 { font-size: 1.6em; margin-bottom: 15px; color: #2C1810; }
+    h3 { font-size: 1.1em; margin: 16px 0 8px 0; color: #4A2511; }
+
+    .simple-box {
+        background: #FFFACD;
+        padding: 14px 18px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-left: 4px solid #8B4513;
+        font-size: 1.02em;
+    }
+    .simple-box small { color: #5C3317; font-size: 0.88em; display: block; margin-top: 4px; }
+
+    .example-box {
+        background: #F5E6D3;
+        border-left: 5px solid #D2691E;
+        padding: 18px;
+        margin: 16px 0;
+        border-radius: 8px;
+    }
+    .example-box h3 { margin-top: 0; color: #8B4513; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+
+    .highlight { background: #FFD700; padding: 2px 6px; border-radius: 3px; font-weight: bold; }
+
+    .definition-toggle {
+        background: #8B4513;
+        color: white;
+        border: none;
+        padding: 11px 22px;
+        font-size: 1em;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 12px 0;
+        transition: all 0.3s;
+        display: inline-block;
+    }
+    .definition-toggle:hover { background: #A0522D; transform: translateY(-2px); }
+
+    .definition-content {
+        display: none;
+        background: #FFF8DC;
+        padding: 18px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 2px solid #8B4513;
+        font-size: 0.97em;
+        line-height: 1.75;
+    }
+    .definition-content.show { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity:0; } to { opacity:1; } }
+
+    .ref-tag {
+        font-size: 0.78em;
+        color: #8B4513;
+        font-style: italic;
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px dashed #CD853F;
+    }
+
+    .mcq-section {
+        background: #FFE4B5;
+        padding: 22px;
+        margin: 20px 0 0 0;
+        border-radius: 10px;
+        border: 3px solid #CD853F;
+    }
+    .mcq-question { font-size: 1.1em; font-weight: bold; margin-bottom: 14px; color: #2C1810; }
+    .mcq-options { list-style: none; padding: 0; }
+    .mcq-option {
+        background: white;
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.25s;
+        border: 2px solid transparent;
+        font-size: 1em;
+    }
+    .mcq-option:hover { background: #FFF8DC; border-color: #8B4513; transform: translateX(5px); }
+    .mcq-option.correct  { background: #90EE90; border-color: #228B22; }
+    .mcq-option.incorrect{ background: #FFB6C6; border-color: #DC143C; }
+
+    .mcq-feedback {
+        display: none;
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 0.97em;
+        line-height: 1.6;
+    }
+    .mcq-feedback.show { display: block; }
+    .mcq-feedback.correct-feedback  { background: #D4EDDA; border: 2px solid #28A745; color: #155724; }
+    .mcq-feedback.incorrect-feedback{ background: #F8D7DA; border: 2px solid #DC3545; color: #721C24; }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 2px solid #8B4513;
+    }
+    .nav-btn {
+        background: #8B4513;
+        color: white;
+        border: none;
+        padding: 13px 28px;
+        font-size: 1.1em;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .nav-btn:hover:not(:disabled) { background: #A0522D; transform: scale(1.05); }
+    .nav-btn:disabled { background: #A9A9A9; cursor: not-allowed; }
+    .progress { text-align: center; font-size: 1.2em; color: #2C1810; font-weight: bold; align-self: center; }
+
+    @media (max-width: 600px) {
+        .two-col { grid-template-columns: 1fr; }
+        h1 { font-size: 1.5em; }
+        .slide { padding: 25px; }
+    }
+</style>
+```
+
+</head>
+<body>
+<div class="container">
+
+<!-- SLIDE 1 — Title -->
+
+<div class="slide active">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Organisations</h1>
+    <h2>Week 6 — Introduction to Business</h2>
+    <div class="example-box">
+        <h3>What You Will Learn</h3>
+        <p>1. What is an organisation?</p>
+        <p>2. Why structure matters</p>
+        <p>3. Five types of structure</p>
+        <p>4. Hierarchy, chain of command and span of control</p>
+        <p>5. Centralised vs Decentralised</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">See Full Learning Outcomes</button>
+    <div class="definition-content">
+        <p>By the end of this session you will be able to:</p>
+        <p>• <strong>Define</strong> an organisation</p>
+        <p>• <strong>Understand</strong> why organisations structure themselves in different ways</p>
+        <p>• <strong>Analyse</strong> different organisational structures and their drawbacks</p>
+        <p>• <strong>Assess</strong> key features: hierarchy, chain of command, span of control</p>
+        <p class="ref-tag">Source: ARU College — Introduction to Business, Week 6 Lecture</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: Which BEST describes an organisation?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A building alone is not an organisation — you need people working together with a shared goal.', 'An organisation = people + relationships + common purpose. Your college, Amazon and the NHS all follow this same formula.')">A) A physical office or building space</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'One person alone is not an organisation — organisations require multiple people working toward a shared goal.', 'An organisation = people + relationships + common purpose. Your college, Amazon and the NHS all follow this same formula.')">B) One solo person running things</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A brand logo is not an organisation — the people working behind it are the real organisation.', 'An organisation = people + relationships + common purpose. Your college, Amazon and the NHS all follow this same formula.')">C) A logo and a brand identity</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! An organisation is people + relationships + a shared goal. Your college, McDonald\'s and the NHS all qualify.', 'An organisation = people + relationships + common purpose. Your college, Amazon and the NHS all follow this same formula.')">D) A group sharing a common goal</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 2 — Defining an Organisation -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Defining an Organisation</h1>
+    <div class="simple-box" style="font-size:1.1em; text-align:center;">
+        <strong>People</strong> &nbsp;+&nbsp; <strong>Relationships</strong> &nbsp;+&nbsp; <strong>Common Purpose</strong>
+    </div>
+    <div class="example-box">
+        <h3>Example: A Music Band</h3>
+        <p>Multiple musicians + working relationships + the shared goal of producing music = <strong>an organisation.</strong></p>
+        <p>Your college works the same way. So does Amazon. So does the NHS.</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p><strong>Buchanan and Huczynski (1991) define organisations as:</strong></p>
+        <p><em>"Social arrangements for the controlled performance of collective goals."</em></p>
+        <br>
+        <p>An organisation is people brought together to carry out different roles. It works through:</p>
+        <p>• <strong>Inter-relationships</strong> — people connecting with each other</p>
+        <p>• <strong>Co-operation</strong> — working together toward the goal</p>
+        <p>• <strong>Sometimes conflict</strong> — disagreements are a normal part of every workplace</p>
+        <br>
+        <p>Think of an organisation as:</p>
+        <p>— <strong>A machine:</strong> every part must work together or the whole thing breaks down</p>
+        <p>— <strong>A living organism:</strong> it grows, adapts, and can become unhealthy</p>
+        <p class="ref-tag">Source: Buchanan, D. and Huczynski, A. (1991) Organizational Behaviour. Prentice Hall.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: What THREE things together form an organisation?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! People + Relationships + Common Purpose = organisation. Remove any one of the three and it falls apart.', 'An organisation requires people, relationships between them, and a shared common purpose — all three together.')">A) People, relationships, shared purpose</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Money, a website and staff describe resources — but these alone do not define what an organisation is.', 'An organisation requires people, relationships between them, and a shared common purpose — all three together.')">B) Money, a website, and some staff</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A name, logo and office are surface features — they do not define the core of what makes an organisation.', 'An organisation requires people, relationships between them, and a shared common purpose — all three together.')">C) A name, a logo, and an office</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Rules, contracts and profit targets are tools used within organisations — they are not the definition of one.', 'An organisation requires people, relationships between them, and a shared common purpose — all three together.')">D) Rules, contracts, and profit goals</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 3 — The 5 Organisational Skills -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>The 5 Organisational Skills</h1>
+    <div class="two-col">
+        <div class="simple-box"><strong>Planning</strong><br><small>Deciding what to do and how</small></div>
+        <div class="simple-box"><strong>Organising</strong><br><small>Setting roles and resources up</small></div>
+        <div class="simple-box"><strong>Resourcing</strong><br><small>Getting what is needed</small></div>
+        <div class="simple-box"><strong>Controlling</strong><br><small>Checking it is working</small></div>
+    </div>
+    <div class="simple-box"><strong>People Management</strong> — looking after and motivating the team</div>
+    <div class="example-box">
+        <h3>Example: Running Glastonbury Festival</h3>
+        <p><strong>Plan</strong> the lineup &nbsp;|&nbsp; <strong>Organise</strong> 3,000 staff &nbsp;|&nbsp; <strong>Resource</strong> security, stages and infrastructure</p>
+        <p><strong>Control</strong> crowds on the day &nbsp;|&nbsp; <strong>Manage</strong> 200,000 attendees and performers</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p>Imagine needing to move a huge boulder. You would immediately face all five skills:</p>
+        <p>• <strong>Planning:</strong> How do we move it? What approach do we take?</p>
+        <p>• <strong>Organising:</strong> Who does what job?</p>
+        <p>• <strong>Resourcing:</strong> Do we use (a) brute strength, (b) a lever, or (c) a bulldozer?</p>
+        <p>• <strong>Controlling:</strong> Is it working? Is it safe?</p>
+        <p>• <strong>People managing:</strong> Keeping the team motivated and coordinated throughout</p>
+        <br>
+        <p>Choosing a bulldozer (technology) changes the entire structure of the task — fewer people are needed, different skills are required, and more planning is essential. Every business faces exactly this kind of decision.</p>
+        <p class="ref-tag">Source: ARU College — Introduction to Business, Week 6 Lecture Activity</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: Which of these is NOT one of the 5 organisational skills?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Controlling IS one of the five — it means checking everything is running as planned.', 'The five skills are: Planning, Organising, Resourcing, Controlling, and People Management. Marketing is not one of them.')">A) Controlling daily business work</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Resourcing IS one of the five — obtaining the people, equipment and money the business needs.', 'The five skills are: Planning, Organising, Resourcing, Controlling, and People Management. Marketing is not one of them.')">B) Resourcing your team well</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'People Management IS one of the five — looking after and motivating the workforce.', 'The five skills are: Planning, Organising, Resourcing, Controlling, and People Management. Marketing is not one of them.')">C) Managing your whole team</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! Marketing is NOT one of the five. The five are: Planning, Organising, Resourcing, Controlling, and People Management.', 'The five skills are: Planning, Organising, Resourcing, Controlling, and People Management. Marketing is not one of them.')">D) Marketing to new audiences</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 4 — How Organisations Differ -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>How Do Organisations Differ?</h1>
+    <div class="two-col">
+        <div class="simple-box"><strong>Ownership</strong><br><small>Public vs Private sector</small></div>
+        <div class="simple-box"><strong>Purpose</strong><br><small>Profit vs Non-profit</small></div>
+        <div class="simple-box"><strong>Legal Status</strong><br><small>Ltd, PLC, Charity, etc.</small></div>
+        <div class="simple-box"><strong>Size</strong><br><small>Micro through to Multinational</small></div>
+    </div>
+    <div class="example-box">
+        <h3>The World's Largest Organisations — Fortune Global 500, 2025</h3>
+        <p>1. Walmart &nbsp; 2. Amazon &nbsp; 3. State Grid &nbsp; 4. Saudi Aramco &nbsp; 5. Apple</p>
+        <p>The top 500 companies generated <strong>$41.7 trillion</strong> in revenue — over one third of all world GDP.</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p>Business size can be measured in six ways:</p>
+        <p>a) <strong>Number of employees</strong> — how many people work there?</p>
+        <p>b) <strong>Volume of output</strong> — how much is produced?</p>
+        <p>c) <strong>Volume of sales</strong> — how much is sold?</p>
+        <p>d) <strong>Assets employed</strong> — what does the company own?</p>
+        <p>e) <strong>Profits earned</strong> — how much money does it make?</p>
+        <p>f) <strong>Net worth</strong> — what is the business worth overall?</p>
+        <br>
+        <p><strong>Business size categories:</strong></p>
+        <p>Micro: 1–9 &nbsp;|&nbsp; Small: 10–49 &nbsp;|&nbsp; Medium: 50–249 &nbsp;|&nbsp; Large: 250+ &nbsp;|&nbsp; Multinational: global</p>
+        <p class="ref-tag">Source: Fortune Global 500 (2025) fortune.com/global500 | Stimpson and Farquharson (2015) Cambridge International A Level Business. Cambridge University Press.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: Which is NOT an official measure of business size?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Volume of sales IS an official measure — how much a company sells is a key indicator of its size.', 'The official measures are: employees, output, sales, assets, profits and net worth. Online reviews are not included.')">A) Total volume of sales made</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Number of employees IS an official measure — Walmart employs over 2 million people worldwide.', 'The official measures are: employees, output, sales, assets, profits and net worth. Online reviews are not included.')">B) Total number of employees</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! Online reviews are NOT an official measure of business size. The real measures are: employees, output, sales, assets, profits and net worth.', 'The official measures are: employees, output, sales, assets, profits and net worth. Online reviews are not included.')">C) Number of customer reviews</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Assets employed IS an official measure — what a company owns, such as factories and equipment, reflects its scale.', 'The official measures are: employees, output, sales, assets, profits and net worth. Online reviews are not included.')">D) Total company assets held</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 5 — Why Have a Structure? -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Why Have a Structure?</h1>
+    <div class="simple-box" style="font-size:1.05em;">
+        A structure is a <span class="highlight">framework</span> — without it, even large organisations collapse into confusion
+    </div>
+    <div class="two-col">
+        <div class="simple-box">Link individuals together</div>
+        <div class="simple-box">Group similar tasks</div>
+        <div class="simple-box">Give authority to act</div>
+        <div class="simple-box">Co-ordinate activities</div>
+    </div>
+    <div class="simple-box">Facilitate the smooth <strong>flow of work</strong> through the business</div>
+    <div class="example-box">
+        <h3>Example: Netflix</h3>
+        <p>Netflix employs 12,000 people. Without a clear structure, nobody would know who commissions content, who manages technology, or who controls finance.</p>
+        <p>Structure means every person knows their role — and productions actually get completed on time.</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p><strong>Organisational Structure:</strong> The internal, formal framework of a business that shows how management is organised and linked together, and how authority is passed through the organisation.</p>
+        <br>
+        <p>An organisational chart makes clear:</p>
+        <p>• Who has <strong>overall responsibility</strong> for decision-making</p>
+        <p>• <strong>Formal relationships</strong> between people and departments</p>
+        <p>• The <strong>chain of command</strong> — how authority flows downward</p>
+        <p>• The <strong>span of control</strong> — how many people each manager supervises</p>
+        <p>• <strong>Communication channels</strong> — who officially communicates with whom</p>
+        <p>• Who each worker <strong>reports to</strong></p>
+        <p class="ref-tag">Source: Stimpson, P. and Farquharson, A. (2015) Cambridge International AS and A Level Business Coursebook. 3rd ed. Cambridge University Press.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: What does an organisational structure primarily show?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Profit targets belong in financial planning — an organisational structure is specifically about people and authority.', 'An organisational structure shows authority, roles, and how everyone inside the business is formally linked together.')">A) Annual profit targets only</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Products sold appear in marketing plans — org structure is about internal people and authority, not the product range.', 'An organisational structure shows authority, roles, and how everyone inside the business is formally linked together.')">B) What products the firm makes</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Supplier locations are logistics information — not what an organisational structure is designed to show.', 'An organisational structure shows authority, roles, and how everyone inside the business is formally linked together.')">C) Where key suppliers are based</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! A structure shows who has authority, who reports to whom, and how everyone inside the organisation is formally linked.', 'An organisational structure shows authority, roles, and how everyone inside the business is formally linked together.')">D) How roles and authority connect</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 6 — 5 Types of Structure -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>5 Types of Organisational Structure</h1>
+
+```
+<div class="simple-box">
+    <strong>Functional</strong> — grouped by skill type (Finance, HR, Marketing as separate departments)
+    <small>Real world: Apple — distinct divisions for Hardware Engineering, Software, Retail, and Finance</small>
+</div>
+<div class="simple-box">
+    <strong>Product / Service</strong> — each product line has its own dedicated team
+    <small>Real world: Procter and Gamble — separate divisions for Pampers, Gillette, Tide, and Ariel</small>
+</div>
+<div class="simple-box">
+    <strong>Divisional</strong> — grouped by region, geography, or customer type
+    <small>Real world: HSBC — separate divisions for UK, Asia-Pacific, Americas, and Middle East</small>
+</div>
+<div class="simple-box">
+    <strong>Matrix</strong> — employees belong to both a functional team AND a project team at the same time
+    <small>Real world: Deloitte — consultants report to a practice lead and also to a specific client project manager</small>
+</div>
+<div class="simple-box">
+    <strong>Virtual / Network</strong> — electronically linked companies with a minimal central office
+    <small>Real world: Airbnb — a small HQ coordinates thousands of independent hosts worldwide</small>
+</div>
+
+<button class="definition-toggle" onclick="toggleDef(this)">Show Advantages and Disadvantages</button>
+<div class="definition-content">
+    <p><strong>Functional:</strong> All workers with similar skills grouped together</p>
+    <p>&nbsp;&nbsp;Advantage: Specialists share expertise and develop deep knowledge in their field</p>
+    <p>&nbsp;&nbsp;Disadvantage: Departments can become isolated silos with poor cross-team communication</p>
+    <br>
+    <p><strong>Product / Service:</strong> Each product line has its own complete team</p>
+    <p>&nbsp;&nbsp;Advantage: Teams are highly focused on their specific product's success</p>
+    <p>&nbsp;&nbsp;Disadvantage: Duplication of resources — each division needs its own HR, Finance, etc.</p>
+    <br>
+    <p><strong>Divisional:</strong> Split by geography, product type, or customer group</p>
+    <p>&nbsp;&nbsp;Advantage: Local knowledge and ability to respond to regional needs quickly</p>
+    <p>&nbsp;&nbsp;Disadvantage: Head office may lose overall control and consistency</p>
+    <br>
+    <p><strong>Matrix:</strong> Workers belong to BOTH a functional team AND a project team simultaneously</p>
+    <p>&nbsp;&nbsp;Advantage: Flexible, encourages innovation and cross-department collaboration</p>
+    <p>&nbsp;&nbsp;Disadvantage: Two managers can create conflicting priorities and confusion</p>
+    <br>
+    <p><strong>Virtual / Network:</strong> Independent companies or individuals linked electronically, minimal HQ</p>
+    <p>&nbsp;&nbsp;Advantage: Very flexible, low operating costs, access to global talent</p>
+    <p>&nbsp;&nbsp;Disadvantage: Difficult to maintain consistent quality and build staff loyalty</p>
+    <p class="ref-tag">Source: Stimpson and Farquharson (2015) Cambridge International A Level Business. Cambridge University Press. | ARU College Week 6 Lecture.</p>
+</div>
+<div class="mcq-section">
+    <div class="mcq-question">Question: Procter and Gamble has separate teams for Pampers, Gillette and Ariel. Which structure is this?</div>
+    <ul class="mcq-options">
+        <li class="mcq-option" onclick="checkAnswer(this, false, 'A functional structure groups people by skill — finance, marketing, HR. P&G organises by product brand, not by function.', 'P&G organises each major brand as its own unit — this is a product-based structure.')">A) A functional organisational type</li>
+        <li class="mcq-option" onclick="checkAnswer(this, false, 'A matrix structure combines functional and project teams with dual reporting. P&G\'s brand divisions do not reflect this model.', 'P&G organises each major brand as its own unit — this is a product-based structure.')">B) A matrix organisational type</li>
+        <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! Each brand at P&G operates as its own product division with a dedicated team — organisation by product.', 'P&G organises each major brand as its own unit — this is a product-based structure.')">C) A product divisional structure</li>
+        <li class="mcq-option" onclick="checkAnswer(this, false, 'A virtual structure uses electronically linked companies with minimal HQ. P&G is a large traditional corporate organisation.', 'P&G organises each major brand as its own unit — this is a product-based structure.')">D) A virtual network structure</li>
+    </ul>
+    <div class="mcq-feedback"></div>
+</div>
+```
+
+</div>
+
+<!-- SLIDE 7 — Hierarchy and Chain of Command -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Hierarchy and Chain of Command</h1>
+    <div class="simple-box"><strong>Hierarchy</strong> = levels of authority stacked from top to bottom of an organisation</div>
+    <div class="simple-box"><strong>Chain of Command</strong> = the route through which authority and instructions travel downward</div>
+    <div class="example-box">
+        <h3>Example: McDonald's Chain of Command</h3>
+        <p>Global CEO — Regional Vice President — Country Manager — Area Manager — Store Manager — Shift Supervisor — Crew Member</p>
+        <p>Every instruction passes down that chain. A breakdown at any level causes delays across the whole operation.</p>
+    </div>
+    <div class="two-col">
+        <div class="simple-box">
+            <strong>Tall Structure</strong><br>
+            Many levels of hierarchy<br>
+            Narrow span of control<br>
+            Risk: slow communication
+        </div>
+        <div class="simple-box">
+            <strong>Flat Structure</strong><br>
+            Few levels of hierarchy<br>
+            Wide span of control<br>
+            Benefit: fast communication
+        </div>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p>A <strong>tall (narrow) structure</strong> has many levels of hierarchy. This creates three main problems:</p>
+        <br>
+        <p>1. <strong>Slow, distorted communication</strong> — messages pass through multiple managers and can arrive altered or delayed</p>
+        <br>
+        <p>2. <strong>Narrow spans of control</strong> — each manager oversees only a few people, creating unnecessary layers of management</p>
+        <br>
+        <p>3. <strong>Remoteness</strong> — staff at lower levels feel disconnected from decision-makers, reducing motivation and morale</p>
+        <br>
+        <p>Many modern organisations — including Spotify, Zappos and Haier — have actively flattened their structures to address exactly these problems.</p>
+        <p class="ref-tag">Source: Stimpson and Farquharson (2015) Cambridge International A Level Business. Cambridge University Press.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: What does the chain of command describe in a business?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Wages and salary structures are HR documents — chain of command is about how authority and instructions move through the organisation.', 'Chain of command = the route through which authority and instructions pass DOWN from top management through every level.')">A) How wages and salaries are set</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Marketing channels are external communication routes — chain of command refers strictly to internal authority flow.', 'Chain of command = the route through which authority and instructions pass DOWN from top management through every level.')">B) How marketing messages reach customers</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! Chain of command = how authority passes DOWN from the CEO through managers to every level of the workforce.', 'Chain of command = the route through which authority and instructions pass DOWN from top management through every level.')">C) How authority flows downward here</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Recruitment is an HR process — it is entirely separate from the chain of command structure.', 'Chain of command = the route through which authority and instructions pass DOWN from top management through every level.')">D) How new staff are recruited here</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 8 — Span of Control -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Span of Control</h1>
+    <div class="simple-box" style="font-size:1.05em; text-align:center;">
+        <span class="highlight">Span of Control</span> = the number of people who report directly to one manager
+    </div>
+    <div class="two-col">
+        <div class="simple-box">
+            <strong>Wide Span (e.g. 8 people)</strong><br><br>
+            Benefit: More delegation<br>
+            Benefit: Flatter structure overall<br>
+            Risk: Manager stretched thin
+        </div>
+        <div class="simple-box">
+            <strong>Narrow Span (e.g. 3 people)</strong><br><br>
+            Benefit: Close supervision<br>
+            Benefit: More support per worker<br>
+            Risk: Creates taller structure
+        </div>
+    </div>
+    <div class="example-box">
+        <h3>Example: A Premier League Football Club</h3>
+        <p><strong>Wide span:</strong> A head coach managing 25 squad players — must trust each one to perform their role independently</p>
+        <p><strong>Narrow span:</strong> A specialist goalkeeping coach with just 3 players — able to monitor and develop each one closely</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p>The ideal span of control depends on several factors:</p>
+        <p>• <strong>Task complexity</strong> — complex work requires closer supervision, so a narrower span is appropriate</p>
+        <p>• <strong>Worker skill level</strong> — experienced staff need less supervision, allowing a wider span</p>
+        <p>• <strong>Manager's experience</strong> — a confident, skilled manager can effectively handle more people</p>
+        <p>• <strong>Physical location</strong> — geographically spread teams are harder to supervise, requiring a narrower span</p>
+        <p>• <strong>Use of technology</strong> — digital monitoring tools allow managers to oversee larger teams today</p>
+        <br>
+        <p>There is no universally correct number. Context determines what works best in each situation.</p>
+        <p class="ref-tag">Source: Stimpson and Farquharson (2015) Cambridge International A Level Business. Cambridge University Press. | ARU College Week 6 Lecture.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: A wide span of control tends to create which type of structure?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A tall structure results from NARROW spans — many management layers, each with few people reporting in.', 'A wide span means many people per manager, which reduces the need for management layers — creating a FLAT structure.')">A) A tall hierarchical structure</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A matrix structure is defined by dual reporting lines — it is not determined by how wide the span of control is.', 'A wide span means many people per manager, which reduces the need for management layers — creating a FLAT structure.')">B) A complex matrix structure</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A virtual structure refers to electronically connected remote organisations — a separate concept from span of control.', 'A wide span means many people per manager, which reduces the need for management layers — creating a FLAT structure.')">C) A remote virtual structure</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! Wide span = many people per manager = fewer management layers needed = a FLAT organisational structure.', 'A wide span means many people per manager, which reduces the need for management layers — creating a FLAT structure.')">D) A flat and open structure</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 9 — Centralised vs Decentralised -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Centralised vs Decentralised</h1>
+    <div class="two-col">
+        <div class="simple-box">
+            <strong>Centralised</strong><br><br>
+            All major decisions at the top<br>
+            Head office controls everything<br>
+            Benefit: consistent decisions<br>
+            Risk: slow, staff feel powerless
+        </div>
+        <div class="simple-box">
+            <strong>Decentralised</strong><br><br>
+            Decisions made by local teams<br>
+            Authority spread throughout<br>
+            Benefit: fast, staff feel empowered<br>
+            Risk: less consistency across sites
+        </div>
+    </div>
+    <div class="example-box">
+        <h3>Example: McDonald's vs Zara</h3>
+        <p><strong>Centralised — McDonald's:</strong> The menu, pricing and branding are all decided centrally. Every outlet worldwide looks and operates identically.</p>
+        <p><strong>Decentralised — Zara:</strong> Local store managers respond to regional trends independently. A new design can reach stores in just two weeks because teams act without waiting for head office.</p>
+    </div>
+    <button class="definition-toggle" onclick="toggleDef(this)">Show More Information</button>
+    <div class="definition-content">
+        <p><strong>Agile Organisation:</strong> A company whose structure, policies and capabilities allow employees to respond quickly to customer needs and changes in the business environment.</p>
+        <br>
+        <p>Agile organisations tend to be <strong>decentralised</strong> — decision-making power is given to the teams closest to the customer.</p>
+        <br>
+        <p>Google operates a partially decentralised model. Gmail was created by one engineer during a 20% personal project time policy — made possible because individual employees had the freedom to act without central approval for every idea.</p>
+        <br>
+        <p><strong>Departmentalisation:</strong> The process of grouping people within an organisation according to function, division, matrix or network structure.</p>
+        <p class="ref-tag">Source: Stimpson and Farquharson (2015) Cambridge International A Level Business. Cambridge University Press. | ARU College Week 6 Lecture.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: Which type of structure gives workers the most decision-making freedom?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A centralised structure keeps ALL power at the top — individual workers have very little authority to decide anything themselves.', 'A decentralised structure delegates decision-making authority DOWN to workers and local teams — giving the most freedom.')">A) A centralised head office model</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A tall hierarchy places many management layers above workers — this reduces freedom rather than increasing it.', 'A decentralised structure delegates decision-making authority DOWN to workers and local teams — giving the most freedom.')">B) A tall hierarchical structure</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! A decentralised structure delegates authority down to workers and local teams — giving the most decision-making freedom.', 'A decentralised structure delegates decision-making authority DOWN to workers and local teams — giving the most freedom.')">C) A decentralised team structure</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A narrow span of control means close supervision from a manager — this actually reduces individual worker freedom.', 'A decentralised structure delegates decision-making authority DOWN to workers and local teams — giving the most freedom.')">D) A narrow span of control</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- SLIDE 10 — Summary -->
+
+<div class="slide">
+    <div class="aru-logo">
+        <div class="aru-bird">a.r.u.</div>
+        <div class="aru-text">
+            <div class="aru-name">College</div>
+            <div class="aru-sub">Cambridge &amp; Chelmsford</div>
+        </div>
+    </div>
+    <h1>Week 6 — Summary</h1>
+    <div class="simple-box"><strong>Organisation</strong> = People + Relationships + Common Purpose</div>
+    <div class="simple-box"><strong>5 Skills</strong> = Planning · Organising · Resourcing · Controlling · People Management</div>
+    <div class="simple-box"><strong>5 Structures</strong> = Functional · Product · Divisional · Matrix · Virtual</div>
+    <div class="simple-box"><strong>Chain of Command</strong> = Authority flows DOWN from the top through every level</div>
+    <div class="simple-box"><strong>Span of Control</strong> = Wide span leads to a flat structure &nbsp;|&nbsp; Narrow span leads to a tall structure</div>
+    <div class="simple-box"><strong>Centralised</strong> = head office decides &nbsp;|&nbsp; <strong>Decentralised</strong> = local teams decide</div>
+    <div class="example-box">
+        <h3>The Key Takeaway</h3>
+        <p>Every organisation you interact with — your college, McDonald's, the NHS, Amazon — has a structure that determines <span class="highlight">who holds authority</span>, <span class="highlight">who communicates with whom</span>, and <span class="highlight">how quickly decisions are made</span>.</p>
+    </div>
+    <div class="mcq-section">
+        <div class="mcq-question">Question: A company where head office controls all decisions is described as...?</div>
+        <ul class="mcq-options">
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'Decentralised is the opposite — that is when local teams hold decision-making power rather than head office.', 'When head office retains all decision-making power, the organisation is described as CENTRALISED.')">A) A decentralised organisation</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A matrix organisation refers to a type of departmental structure — not a description of where decisions are made.', 'When head office retains all decision-making power, the organisation is described as CENTRALISED.')">B) A matrix-style organisation</li>
+            <li class="mcq-option" onclick="checkAnswer(this, false, 'A virtual organisation refers to electronically linked remote companies — not about decision-making location.', 'When head office retains all decision-making power, the organisation is described as CENTRALISED.')">C) A virtual-type organisation</li>
+            <li class="mcq-option" onclick="checkAnswer(this, true, 'Correct! When head office retains all important decision-making power, that is a CENTRALISED structure.', 'When head office retains all decision-making power, the organisation is described as CENTRALISED.')">D) A centralised organisation</li>
+        </ul>
+        <div class="mcq-feedback"></div>
+    </div>
+</div>
+
+<!-- Navigation -->
+
+<div class="navigation">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+    <div class="progress">Slide <span id="slideNumber">1</span> / <span id="totalSlides">10</span></div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = document.querySelectorAll('.slide').length;
+    document.getElementById('totalSlides').textContent = totalSlides;
+
+    function showSlide(n) {
+        const slides = document.querySelectorAll('.slide');
+        if (n > totalSlides) currentSlide = totalSlides;
+        if (n < 1) currentSlide = 1;
+        slides.forEach(s => s.classList.remove('active'));
+        slides[currentSlide - 1].classList.add('active');
+        document.getElementById('slideNumber').textContent = currentSlide;
+        document.getElementById('prevBtn').disabled = (currentSlide === 1);
+        document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+        document.querySelectorAll('.mcq-option').forEach(o => {
+            o.classList.remove('correct', 'incorrect');
+            o.style.pointerEvents = 'auto';
+        });
+        document.querySelectorAll('.mcq-feedback').forEach(f => {
+            f.classList.remove('show', 'correct-feedback', 'incorrect-feedback');
+            f.textContent = '';
+        });
+        window.scrollTo(0, 0);
+    }
+
+    function changeSlide(dir) { currentSlide += dir; showSlide(currentSlide); }
+
+    function toggleDef(btn) {
+        const content = btn.nextElementSibling;
+        content.classList.toggle('show');
+        btn.textContent = content.classList.contains('show') ? 'Hide Information' : 'Show More Information';
+    }
+
+    function checkAnswer(option, isCorrect, explanation, correctExplanation) {
+        const allOptions = option.parentElement.querySelectorAll('.mcq-option');
+        const feedback = option.closest('.mcq-section').querySelector('.mcq-feedback');
+        allOptions.forEach(o => o.style.pointerEvents = 'none');
+        if (isCorrect) {
+            option.classList.add('correct');
+            feedback.textContent = 'Correct! ' + correctExplanation;
+            feedback.classList.add('show', 'correct-feedback');
+        } else {
+            option.classList.add('incorrect');
+            allOptions.forEach(o => {
+                if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+            });
+            feedback.textContent = 'Not quite. ' + explanation;
+            feedback.classList.add('show', 'incorrect-feedback');
+        }
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft' && currentSlide > 1) changeSlide(-1);
+        if (e.key === 'ArrowRight' && currentSlide < totalSlides) changeSlide(1);
+    });
+
+    showSlide(1);
+</script>
+
+</body>
+</html>
